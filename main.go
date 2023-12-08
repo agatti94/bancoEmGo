@@ -5,17 +5,22 @@ import (
 	"fmt"
 )
 
+func PagarBoleto(conta VerificarConta, valorBoleto float64) {
+	conta.Sacar(valorBoleto)
+}
+
+type VerificarConta interface {
+	Sacar(valor float64) (string, float64)
+}
+
 func main() {
 	var contaDoArthur *contas.ContaCorrente = new(contas.ContaCorrente)
 	contaDoArthur.Titular.Nome = "Arthur"
 	contaDoArthur.NumeroAgencia = 2
 	contaDoArthur.NumeroConta = 3
+	contaDoArthur.Depositar(500)
 
-	var contaDoJoca *contas.ContaCorrente = new(contas.ContaCorrente)
-	contaDoArthur.Titular.Nome = "Joca"
-	contaDoJoca.NumeroAgencia = 2
-	contaDoJoca.NumeroConta = 3
-	contaDoJoca.Saldo = 300
-	contaDoArthur.Depositar(200)
-	fmt.Println(contaDoArthur.Transeferir(100, contaDoJoca))
+	PagarBoleto(contaDoArthur, 300)
+	fmt.Println(contaDoArthur.ObterSaldo())
+
 }
